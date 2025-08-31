@@ -1,10 +1,31 @@
-<div class="top-nav">
-  <div class="logo">LKW BLITZ</div>
-  <div class="user-info" (click)="toggleUserMenu()">
-    <img [src]="userAvatar" alt="Avatar" class="avatar">
-    <span>{{ userName }}</span>
+<header class="top-nav">
+  <!-- Left: Back Button -->
+  <div class="header-left">
+    <app-back-button></app-back-button>
   </div>
-  <div *ngIf="userMenuOpen" class="user-menu">
-    <button (click)="logout()">Logout</button>
+
+  <!-- Center: Logo -->
+  <div class="header-center">
+    <div class="logo">LKW Blitz</div>
   </div>
-</div>
+
+  <!-- Right: Clock + User -->
+  <div class="header-right">
+    <div class="clock" *ngIf="currentDate" aria-live="polite">
+      {{ currentDate | date: "EEEE, d MMMM yyyy" }} — {{ currentTime }}
+    </div>
+
+    <div class="user-info" (click)="toggleUserMenu()">
+      <img src="assets/logo.png" alt="User avatar" class="avatar" />
+      <span class="username">{{ userName || 'Guest' }}
+        <svg style="width:12px; height:12px; vertical-align: middle; margin-left: 5px;" viewBox="0 0 24 24">
+          <path fill="currentColor" d="M7 10l5 5 5-5H7z" />
+        </svg>
+      </span>
+
+      <div *ngIf="userMenuOpen" class="user-menu">
+        <button class="logout-btn" (click)="logout()">Log Out</button>
+      </div>
+    </div>
+  </div>
+</header>

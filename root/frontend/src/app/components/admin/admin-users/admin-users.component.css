@@ -1,3 +1,4 @@
+/* MAIN CONTENT dentro del main container */
 .main-content {
   flex-grow: 1;
   padding: 2rem;
@@ -5,13 +6,15 @@
   background: white;
   border-radius: 10px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-  margin: 0 auto;           /* Centrar el contenedor */
-  max-width: 900px;         /* Limitar el ancho */
+  margin: 2rem auto;        /* Centrado horizontal + margen vertical */
+  max-width: 100%;           /* Que no se salga del main container */
+  width: 900px;              /* Ancho máximo del userlist */
+  box-sizing: border-box;    /* Incluye padding dentro del ancho */
 }
 
 /* Tabla dentro del main-content */
 table {
-  width: 100%;              /* Ajusta al ancho del contenedor */
+  width: 100%;               /* Se ajusta al ancho del contenedor */
   margin: 1rem auto;         /* Centrada */
   border-collapse: collapse;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -41,7 +44,7 @@ tbody tr:hover {
 
 /* Botones dentro de la tabla */
 table button {
-  width: auto; /* No ocupar toda la celda */
+  width: auto;
   padding: 0.4rem 1rem;
   border: none;
   border-radius: 5px;

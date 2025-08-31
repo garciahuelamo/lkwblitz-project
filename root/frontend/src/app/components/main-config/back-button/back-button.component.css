@@ -1,0 +1,21 @@
+.back-button {
+  background-color: #4a5568; /* gris oscuro */
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.back-button:hover {
+  background-color: #000000; /* más oscuro al hover */
+}
+
+.icon-back {
+  width: 1.2rem;
+  height: 1.2rem;
+}
