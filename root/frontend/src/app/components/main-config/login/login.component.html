@@ -1,0 +1,40 @@
+<div class="page-container">
+  <header>
+    <h1>LKW BLITZ</h1>
+  </header>
+
+  <div class="form-container">
+    <h2 *ngIf="!isRegisterMode">Login</h2>
+    <h2 *ngIf="isRegisterMode">Register</h2>
+
+    <form *ngIf="!isRegisterMode" [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()">
+      <input formControlName="email" type="email" placeholder="Email" />
+      <input formControlName="password" type="password" placeholder="Password" />
+      <label>
+        <input formControlName="remember" type="checkbox" />
+        Remember me
+        <br><br>
+      </label>
+      <button type="submit" [disabled]="loading">Login</button>
+    </form>
+
+    <form *ngIf="isRegisterMode" [formGroup]="registerForm" (ngSubmit)="onRegisterSubmit()">
+      <input formControlName="name" type="text" placeholder="Name" />
+      <input formControlName="email" type="email" placeholder="Email" />
+      <input formControlName="password" type="password" placeholder="Password" />
+      <input formControlName="confirmPassword" type="password" placeholder="Confirm password" />
+      <button type="submit" [disabled]="loading">Register</button>
+    </form>
+
+    <p class="toggle-link" (click)="toggleMode()">
+      {{ isRegisterMode ? 'Do you have an account? Log in' : '¿Not yet? Register' }}
+    </p>
+
+    <button type="button" (click)="goToForgotPassword()" class="btn-link">
+      Forgot your password?
+    </button>
+
+    <p *ngIf="loading" style="text-align:center; margin-top:1rem;">Loading...</p>
+    <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
+  </div>
+</div>

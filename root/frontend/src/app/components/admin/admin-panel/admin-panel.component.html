@@ -1,0 +1,35 @@
+<div class="page-container">
+  <header>
+    <h1>LKW BLITZ</h1>
+  </header>
+
+  <div class="form-container">
+    <h2>Panel de Administración</h2>
+
+    <div *ngIf="loading">Cargando usuarios...</div>
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+
+    <table *ngIf="!loading && users.length > 0" cellpadding="5">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Email</th>
+          <th>Rol</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users">
+          <td>{{ user.name }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.role }}</td>
+          <td>
+            <button (click)="deleteUser(user.id)">Borrar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="!loading && users.length === 0">No hay usuarios para mostrar.</div>
+  </div>
+</div>

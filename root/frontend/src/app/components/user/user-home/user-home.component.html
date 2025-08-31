@@ -1,0 +1,46 @@
+<div class="page-container">
+
+  <!-- Header -->
+  <header class="top-nav">
+    <div class="logo">LKW Blitz - User</div>
+    <div class="clock" aria-live="polite">
+      {{ currentDate | date: "EEEE, d MMMM yyyy" }} — {{ currentTime }}
+    </div>
+    <div class="user-info">
+      <img [src]="userAvatar" alt="User avatar" class="avatar" />
+      <span class="username" (click)="toggleUserMenu()">
+        {{ userName }}
+        <svg viewBox="0 0 24 24">
+          <path fill="currentColor" d="M7 10l5 5 5-5H7z"/>
+        </svg>
+      </span>
+      <div class="user-menu" *ngIf="userMenuOpen">
+        <button (click)="logout()">Log Out</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="main-content">
+    <div class="card-row">
+      <div class="card" (click)="goTo('create-order')">
+        <img src="assets/new_order.png" alt="Create Order" class="card-img" />
+        <div class="card-title">New Order</div>
+      </div>
+      <div class="card" (click)="goTo('orders')">
+        <img src="assets/my_orders.png" alt="Orders" class="card-img" />
+        <div class="card-title">My Orders</div>
+      </div>
+    </div>
+
+    <div class="card-row single-row">
+      <div class="card" (click)="goTo('settings')">
+        <img src="assets/settings.png" alt="Settings" class="card-img" />
+        <div class="card-title">Settings</div>
+      </div>
+    </div>
+
+    <router-outlet></router-outlet>
+  </main>
+
+</div>

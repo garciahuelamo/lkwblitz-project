@@ -1,0 +1,182 @@
+/* Contenedor principal */
+.page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100vw;
+  background: linear-gradient(135deg, #202022, #7b857f);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin-top: 60px; /* espacio para el top-nav fijo */
+  box-sizing: border-box;
+}
+
+/* Top Nav */
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+  background-color: #088349;
+  color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  z-index: 1000;
+}
+
+.top-nav .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.clock {
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.username {
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
+  font-weight: 600;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.dropdown-icon {
+  width: 12px;
+  height: 12px;
+}
+
+/* User dropdown menu */
+.user-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  padding: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  z-index: 10;
+  width: 140px;
+  border-radius: 4px;
+}
+
+.user-menu button {
+  background: none;
+  border: none;
+  padding: 8px 10px;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  color: #333;
+  font-weight: 500;
+}
+
+.user-menu button:hover {
+  background-color: #f0f0f0;
+}
+
+/* Main content */
+.main-content {
+  flex-grow: 1;
+  padding: 2rem 3rem;
+  min-height: calc(100vh - 80px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rem; /* separa filas */
+}
+
+/* Primera fila (2 cards) */
+.card-row-top {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  width: 100%;
+}
+
+/* Segunda fila (1 card centrada) */
+.card-row-bottom {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+/* Card */
+.card-row {
+  display: flex;
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+.card-row.single-row {
+  justify-content: center; /* Centra la card de la fila inferior */
+  margin-bottom: 0;
+}
+
+.card {
+  background-color: white;
+  color: black;
+  width: 320px; /* un poco más grande */
+  padding: 55px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+}
+
+.card-img {
+  width: 250px;
+  margin-bottom: 15px;
+}
+
+.card-title {
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+/* Botones generales */
+button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #088349;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #065f30;
+}
+

@@ -1,0 +1,88 @@
+/* Contenedor de todas las tarjetas */
+.main-content > .flex.flex-col.gap-4 {
+  width: 95%;           /* ocupa casi todo el ancho de la pantalla */
+  max-width: 1200px;    /* limita ancho máximo en pantallas muy grandes */
+  margin: 0 auto;       /* centra horizontalmente */
+}
+
+.title{
+  color: white;
+  font-size: 2.5rem;
+}
+
+/* Tarjeta de cada tarifa */
+.rate-card {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  background-color: #f9f9f9;
+  transition: box-shadow 0.2s;
+  width: 100%;          
+  max-width: 1100px;   
+  box-sizing: border-box;
+}
+
+/* Efecto hover */
+.rate-card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* Logo de la compañía */
+.rate-logo {
+  width: 250px;          /* tamaño más pequeño para que no ocupe toda la pantalla */
+  height: 130px;
+  margin-right: 1rem;
+  flex-shrink: 0;
+}
+
+/* Información de la tarifa */
+.rate-card .flex-1 {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;  /* centra verticalmente */
+  align-items: center;      /* centra horizontalmente */
+  text-align: center;       /* centra texto */
+  padding: 0 1rem;          /* mantiene un poco de espacio lateral */
+}
+
+.rate-card p.text-gray-800.font-bold {
+  font-size: 1.25rem; 
+  font-weight: bold;
+}
+
+/* Botón de comprar */
+.rate-card button {
+  padding: 1rem 1rem;
+  border: none;
+  border-radius: 100px;
+  background-color: #312e2e;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  flex-shrink: 0;
+}
+
+.rate-card button:hover {
+  background-color: #04aa39;
+}
+
+/* Responsivo para pantallas pequeñas */
+@media (max-width: 768px) {
+  .rate-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .rate-logo {
+    margin-bottom: 0.5rem;
+    margin-right: 0;
+  }
+
+  .rate-card button {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+}

@@ -1,0 +1,55 @@
+<div class="main-content">
+  <h2>User List</h2>
+
+  <div *ngIf="loading">Loading...</div>
+  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+
+  <input
+    type="text"
+    placeholder="Search user by name or email..."
+    [(ngModel)]="searchTerm"
+    (input)="filterUsers()"
+  />
+
+  <ng-container *ngIf="users.length > 0; else noUsers">
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of filteredUsers">
+          <td>
+            <ng-container *ngIf="editingUserId === user.id; else showName">
+              <input [(ngModel)]="editedUser.name" />
+            </ng-container>
+            <ng-template #showName>{{ user.name }}</ng-template>
+          </td>
+          <td>
+            <ng-container *ngIf="editingUserId === user.id; else showEmail">
+              <input [(ngModel)]="editedUser.email" />
+            </ng-container>
+            <ng-template #showEmail>{{ user.email }}</ng-template>
+          </td>
+          <td>
+            <ng-container *ngIf="editingUserId === user.id; else showActions">
+              <button (click)="saveUser()" [disabled]="updatingUserId === user.id">Save</button>
+              <button (click)="cancelEditing()" [disabled]="updatingUserId === user.id">Cancel</button>
+            </ng-container>
+            <ng-template #showActions>
+              <button (click)="startEditing(user)">Update</button>
+              <button (click)="deleteUser(user.id)">Delete</button>
+            </ng-template>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-container>
+
+  <ng-template #noUsers>
+    <div>There are no users.</div>
+  </ng-template>
+</div>
