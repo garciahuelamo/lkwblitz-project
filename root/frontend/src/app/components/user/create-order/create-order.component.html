@@ -1,131 +1,86 @@
 <div class="page-container">
-  <!-- HEADER del usuario -->
-  <header class="top-nav">
-    <div class="logo">LKW Blitz - User</div>
-    <div class="clock" aria-live="polite">
-      {{ currentDate | date: "EEEE, d MMMM yyyy" }} — {{ currentTime }}
-    </div>
-    <div class="user-info" style="position: relative;">
-      <img src="assets/logo.png" alt="User avatar" class="avatar" />
-      <span class="username" (click)="toggleUserMenu()" style="cursor: pointer;">
-        {{ userName }}
-        <svg style="width:12px; height:12px; vertical-align: middle; margin-left: 5px;" viewBox="0 0 24 24">
-          <path fill="currentColor" d="M7 10l5 5 5-5H7z" />
-        </svg>
-      </span>
-      <div *ngIf="userMenuOpen" class="user-menu">
-        <button (click)="logout()">Log Out</button>
+  <div class="order-form-container">
+    <h2>New Order</h2>
+
+    <form #orderForm="ngForm" (ngSubmit)="getRates()">
+
+      <div class="form-columns">
+        <!-- Pickup Address -->
+        <div class="form-section">
+          <h3>Pickup Address</h3>
+          <div class="form-group">
+            <label>Name</label>
+            <input [(ngModel)]="order.address_from.name" name="fromName" required>
+          </div>
+          <div class="form-group">
+            <label>Street</label>
+            <input [(ngModel)]="order.address_from.street1" name="fromStreet" required>
+          </div>
+          <div class="form-group">
+            <label>City</label>
+            <input [(ngModel)]="order.address_from.city" name="fromCity" required>
+          </div>
+          <div class="form-group">
+            <label>State</label>
+            <input [(ngModel)]="order.address_from.state" name="fromState">
+          </div>
+          <div class="form-group">
+            <label>Postal Code</label>
+            <input [(ngModel)]="order.address_from.zip" name="fromZip" required>
+          </div>
+        </div>
+
+        <!-- Delivery Address -->
+        <div class="form-section">
+          <h3>Delivery Address</h3>
+          <div class="form-group">
+            <label>Name</label>
+            <input [(ngModel)]="order.address_to.name" name="toName" required>
+          </div>
+          <div class="form-group">
+            <label>Street</label>
+            <input [(ngModel)]="order.address_to.street1" name="toStreet" required>
+          </div>
+          <div class="form-group">
+            <label>City</label>
+            <input [(ngModel)]="order.address_to.city" name="toCity" required>
+          </div>
+          <div class="form-group">
+            <label>State</label>
+            <input [(ngModel)]="order.address_to.state" name="toState">
+          </div>
+          <div class="form-group">
+            <label>Postal Code</label>
+            <input [(ngModel)]="order.address_to.zip" name="toZip" required>
+          </div>
+        </div>
+
+        <!-- Parcels -->
+        <div class="form-section">
+          <h3>Parcels</h3>
+          <div *ngFor="let parcel of order.parcels; let i = index" class="form-group parcel-group">
+            <label>Weight (kg)</label>
+            <input type="number" [(ngModel)]="parcel.weight" [name]="'weight'+i" required>
+            <label>Length (cm)</label>
+            <input type="number" [(ngModel)]="parcel.length" [name]="'length'+i" required>
+            <label>Width (cm)</label>
+            <input type="number" [(ngModel)]="parcel.width" [name]="'width'+i" required>
+            <label>Height (cm)</label>
+            <input type="number" [(ngModel)]="parcel.height" [name]="'height'+i" required>
+            <button type="button" (click)="removeParcel(i)" *ngIf="order.parcels.length > 1">Remove</button>
+          </div>
+          <button type="button" (click)="addParcel()">Add Parcel</button>
+        </div>
       </div>
-    </div>
-  </header>
 
-  <!-- CONTENIDO PRINCIPAL -->
-  <main class="main-content">
-    <div class="main-card">
-      <h2>Nueva Orden</h2>
-
-      <!-- FORMULARIO -->
-      <form (ngSubmit)="getRates()" #orderForm="ngForm">
-        <!-- DIRECCIÓN DE ORIGEN -->
-        <h3>Dirección de Origen</h3>
-        <div class="form-group">
-          <label for="fromName">Nombre</label>
-          <input id="fromName" [(ngModel)]="order.address_from.name" name="fromName" required />
-        </div>
-        <div class="form-group">
-          <label for="fromStreet">Calle</label>
-          <input id="fromStreet" [(ngModel)]="order.address_from.street1" name="fromStreet" required />
-        </div>
-        <div class="form-group">
-          <label for="fromCity">Ciudad</label>
-          <input id="fromCity" [(ngModel)]="order.address_from.city" name="fromCity" required />
-        </div>
-        <div class="form-group">
-          <label for="fromState">Estado</label>
-          <input id="fromState" [(ngModel)]="order.address_from.state" name="fromState" required />
-        </div>
-        <div class="form-group">
-          <label for="fromZip">Código Postal</label>
-          <input id="fromZip" [(ngModel)]="order.address_from.zip" name="fromZip" required />
-        </div>
-        <div class="form-group">
-          <label for="fromCountry">País</label>
-          <input id="fromCountry" [(ngModel)]="order.address_from.country" name="fromCountry" required />
-        </div>
-        <div class="form-group">
-          <label for="fromPhone">Teléfono</label>
-          <input id="fromPhone" [(ngModel)]="order.address_from.phone" name="fromPhone" required />
-        </div>
-        <div class="form-group">
-          <label for="fromEmail">Email</label>
-          <input id="fromEmail" [(ngModel)]="order.address_from.email" name="fromEmail" required />
-        </div>
-
-        <!-- DIRECCIÓN DE DESTINO -->
-        <h3>Dirección de Destino</h3>
-        <div class="form-group">
-          <label for="toName">Nombre</label>
-          <input id="toName" [(ngModel)]="order.address_to.name" name="toName" required />
-        </div>
-        <div class="form-group">
-          <label for="toStreet">Calle</label>
-          <input id="toStreet" [(ngModel)]="order.address_to.street1" name="toStreet" required />
-        </div>
-        <div class="form-group">
-          <label for="toCity">Ciudad</label>
-          <input id="toCity" [(ngModel)]="order.address_to.city" name="toCity" required />
-        </div>
-        <div class="form-group">
-          <label for="toState">Estado</label>
-          <input id="toState" [(ngModel)]="order.address_to.state" name="toState" required />
-        </div>
-        <div class="form-group">
-          <label for="toZip">Código Postal</label>
-          <input id="toZip" [(ngModel)]="order.address_to.zip" name="toZip" required />
-        </div>
-        <div class="form-group">
-          <label for="toCountry">País</label>
-          <input id="toCountry" [(ngModel)]="order.address_to.country" name="toCountry" required />
-        </div>
-        <div class="form-group">
-          <label for="toPhone">Teléfono</label>
-          <input id="toPhone" [(ngModel)]="order.address_to.phone" name="toPhone" required />
-        </div>
-        <div class="form-group">
-          <label for="toEmail">Email</label>
-          <input id="toEmail" [(ngModel)]="order.address_to.email" name="toEmail" required />
-        </div>
-
-        <!-- PAQUETES -->
-        <h3>Paquetes</h3>
-        <div *ngFor="let parcel of order.parcels; let i = index" class="form-group">
-          <label>Peso (kg)</label>
-          <input type="number" [(ngModel)]="parcel.weight" name="weight{{i}}" required />
-          
-          <label>Largo (cm)</label>
-          <input type="number" [(ngModel)]="parcel.length" name="length{{i}}" required />
-          
-          <label>Ancho (cm)</label>
-          <input type="number" [(ngModel)]="parcel.width" name="width{{i}}" required />
-          
-          <label>Alto (cm)</label>
-          <input type="number" [(ngModel)]="parcel.height" name="height{{i}}" required />
-
-          <button type="button" (click)="removeParcel(i)" *ngIf="order.parcels.length > 1">Eliminar Paquete</button>
-        </div>
-
-        <button type="button" (click)="addParcel()">Agregar Paquete</button>
-
-        <!-- BOTÓN DE SUBMIT -->
+      <div class="form-actions">
         <button type="submit" [disabled]="loading || !orderForm.form.valid">
-          {{ loading ? 'Cargando...' : 'Obtener Tarifas' }}
+          {{ loading ? 'Loading...' : 'Get Rates' }}
         </button>
-      </form>
+        <button type="button" (click)="loadExample()">Load Example</button>
+      </div>
 
-      <button type="button" (click)="loadExample()">Cargar ejemplo</button>
-      
-      <!-- ERROR -->
       <div *ngIf="errorMsg" class="error">{{ errorMsg }}</div>
-    </div>
-  </main>
+    </form>
+  </div>
 </div>

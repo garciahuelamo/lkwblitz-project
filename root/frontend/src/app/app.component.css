@@ -1,0 +1,20 @@
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+.main-content {
+  display: flex;
+  justify-content: center; /* centro horizontal */
+  align-items: center;     /* centro vertical */
+  min-height: 100vh;       /* ocupa toda la pantalla */
+  background-color: #2b2b2b; /* tu color de fondo */
+  padding: 0;
+}
+
+.center-container {
+  width: 100%;
+  max-width: 450px;       /* ancho máximo del formulario */
+  padding: 1rem;
+  box-sizing: border-box;
+}

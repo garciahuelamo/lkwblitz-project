@@ -1,57 +1,111 @@
 .top-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.5rem 2rem;
-  background-color: #088349;
-  color: white;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   height: 60px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  padding: 0 2rem;
+  background-color: #088349;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
   z-index: 1000;
 }
 
+/* Back button a la izquierda */
+.header-left {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  z-index: 2;
+}
+
+/* Logo centrado usando posición absoluta */
+.header-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+/* Usuario y reloj a la derecha */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  z-index: 2;
+}
+
+/* Clock */
+.clock {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* User info */
 .user-info {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   cursor: pointer;
+  position: relative;
 }
 
-.avatar {
-  width: 32px;
-  height: 32px;
+.user-info .avatar {
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   object-fit: cover;
+  border: 2px solid white;
 }
 
+.user-info .username {
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+}
+
+/* User menu */
 .user-menu {
   position: absolute;
   top: 100%;
   right: 0;
   background: white;
-  border: 1px solid #ccc;
-  padding: 8px;
+  border-radius: 6px;
+  padding: 0.5rem 0;
   box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-  z-index: 9999;
-  width: 120px;
+  width: 140px;
   color: #333;
   font-size: 14px;
-  border-radius: 4px;
+  z-index: 999;
 }
 
-.user-menu button {
-  background: none;
+/* Botón de logout */
+.logout-btn {
+  background-color: #f44336; /* rojo fuerte */
+  color: white;
   border: none;
-  padding: 8px 10px;
+  padding: 10px 15px;
   width: 100%;
-  text-align: left;
+  text-align: center;
+  font-weight: bold;
+  border-radius: 4px;
   cursor: pointer;
+  transition: background 0.2s ease;
 }
 
-.user-menu button:hover {
-  background-color: #f0f0f0;
+.logout-btn:hover {
+  background-color: #d32f2f;
+}
+
+/* Logo */
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
 }

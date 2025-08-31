@@ -7,32 +7,6 @@
     </ul>
   </nav>
 
-  <header class="top-nav">
-    <div class="logo">LKW Blitz - Admin </div>
-    <div class="clock" aria-live="polite">
-      {{ currentDate | date:'EEEE, d MMMM yyyy' }} — {{ currentTime }}
-    </div>
-    <div class="user-info" style="position: relative;">
-      <img src="assets/orders-icon.png" alt="User avatar" class="avatar" />
-      <span class="username" (click)="toggleUserMenu()" style="cursor: pointer;">
-        {{ userName }}
-        <svg style="width:12px; height:12px; vertical-align: middle; margin-left: 5px;" viewBox="0 0 24 24">
-          <path fill="currentColor" d="M7 10l5 5 5-5H7z"/>
-        </svg>
-      </span>
-
-      <div 
-        class="user-menu" 
-        *ngIf="userMenuOpen" 
-        style="position: absolute; top: 100%; right: 0; background: white; border: 1px solid #ccc; padding: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 10;"
-      >
-        <button (click)="logout()" style="background:none; border:none; padding:5px 10px; width: 100%; text-align:left; cursor:pointer;">
-          Log Out
-        </button>
-      </div>
-    </div>
-  </header>
-
   <main class="form-container">
     <router-outlet></router-outlet>
   </main>

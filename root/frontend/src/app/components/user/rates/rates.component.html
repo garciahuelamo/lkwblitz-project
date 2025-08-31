@@ -1,66 +1,36 @@
 <div class="page-container">
-
-  <!-- Header -->
-  <header class="top-nav flex items-center justify-between p-4 bg-gray-800 text-white">
-    <div class="logo font-bold text-xl">LKW Blitz - User</div>
-    <div class="clock" aria-live="polite">
-      {{ currentDate | date: "EEEE, d MMMM yyyy" }} — {{ currentTime }}
-    </div>
-    <div class="user-info relative flex items-center space-x-2">
-      <img [src]="userAvatar || 'assets/default-avatar.png'" alt="User avatar" class="avatar w-8 h-8 rounded-full" />
-      <span class="username cursor-pointer flex items-center space-x-1" (click)="toggleUserMenu()">
-        {{ userName }}
-        <svg viewBox="0 0 24 24" class="w-4 h-4">
-          <path fill="currentColor" d="M7 10l5 5 5-5H7z"/>
-        </svg>
-      </span>
-      <div class="user-menu absolute right-0 mt-2 bg-white text-black rounded shadow-md" *ngIf="userMenuOpen">
-        <button class="px-4 py-2 w-full text-left hover:bg-gray-100" (click)="logout()">Log Out</button>
-      </div>
-    </div>
-  </header>
-
   <!-- Main Content -->
-  <main class="main-content p-4">
+  <main class="main-content">
+    <div class="rates-container">
+      <h2 class="title">Available Rates</h2>
 
-    <h2 class="title">Tarifas disponibles</h2>
-
-    <div *ngIf="rates.length === 0" class="text-gray-500 mb-4">
-      No hay tarifas disponibles.
-    </div>
-
-    <div class="flex flex-col gap-4">
-
-      <div *ngFor="let rate of rates" 
-           class="rate-card flex items-center bg-white shadow-md rounded-lg p-4 hover:shadow-xl transition max-w-3xl w-full mx-auto">
-
-        <!-- Logo de la compañía -->
-        <div class="mr-6 flex flex-col items-center flex-shrink-0">
-          <img [src]="getCarrierLogo(rate.provider)" alt="{{rate.provider}}" class="rate-logo">
-        </div>
-
-        <!-- Información de la tarifa -->
-        <div class="flex-1 px-4">
-          <h3 class="font-semibold text-lg">{{ rate.provider || 'Compañía' }}</h3>
-          <p class="text-gray-600">Servicio: {{ rate.servicelevel?.name || 'Standard' }}</p>
-          <p class="text-gray-800 font-bold">
-            {{ rate.amount_local !== undefined ? (rate.amount_local + ' ' + rate.currency_local) : rate.amount + ' ' + rate.currency }}
-          </p>
-        </div>
-
-        <!-- Botón comprar etiqueta -->
-        <div class="flex-shrink-0">
-          <button 
-            class="buy-button bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
-            (click)="buyLabel(rate.object_id)">
-            Comprar
-          </button>
-        </div>
-
+      <div *ngIf="rates.length === 0" class="no-rates">
+        No rates available.
       </div>
 
-    </div>
+      <div class="form-columns">
+        <div *ngFor="let rate of rates" class="rate-card">
+          <!-- Logo -->
+          <div class="rate-logo-container">
+            <img [src]="getCarrierLogo(rate.provider)" alt="{{rate.provider}}" class="rate-logo">
+          </div>
 
+          <!-- Info -->
+          <div class="rate-info">
+            <h3>{{ rate.provider || 'Company' }}</h3>
+            <p>Service: {{ rate.servicelevel?.name || 'Standard' }}</p>
+            <p class="rate-amount">
+              {{ rate.amount_local !== undefined ? (rate.amount_local + ' ' + rate.currency_local) : rate.amount + ' ' + rate.currency }}
+            </p>
+          </div>
+
+          <!-- Buy Button -->
+          <div class="buy-button-container">
+            <button (click)="buyLabel(rate.object_id)">Buy</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </main>
 
 </div>

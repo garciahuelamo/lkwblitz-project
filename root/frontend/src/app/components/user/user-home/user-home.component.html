@@ -1,25 +1,5 @@
 <div class="page-container">
-
-  <!-- Header -->
-  <header class="top-nav">
-    <div class="logo">LKW Blitz - User</div>
-    <div class="clock" aria-live="polite">
-      {{ currentDate | date: "EEEE, d MMMM yyyy" }} — {{ currentTime }}
-    </div>
-    <div class="user-info">
-      <img [src]="userAvatar" alt="User avatar" class="avatar" />
-      <span class="username" (click)="toggleUserMenu()">
-        {{ userName }}
-        <svg viewBox="0 0 24 24">
-          <path fill="currentColor" d="M7 10l5 5 5-5H7z"/>
-        </svg>
-      </span>
-      <div class="user-menu" *ngIf="userMenuOpen">
-        <button (click)="logout()">Log Out</button>
-      </div>
-    </div>
-  </header>
-
+  
   <!-- Main -->
   <main class="main-content">
     <div class="card-row">

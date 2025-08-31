@@ -1,16 +1,18 @@
-<div class="form-container">
-  <h2>Configuración de Usuario</h2>
+<main class="main-content">
+  <div class="form-container">
+    <h2>Configuración de Usuario</h2>
 
-  <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
-    <label for="name">Nombre</label>
-    <input id="name" type="text" formControlName="name" />
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+      <label for="name">Nombre</label>
+      <input id="name" type="text" formControlName="name" />
 
-    <label for="email">Email</label>
-    <input id="email" type="email" formControlName="email" />
+      <label for="email">Email</label>
+      <input id="email" type="email" formControlName="email" />
 
-    <label for="role">Rol</label>
-    <input id="role" type="text" formControlName="role"  />
+      <label for="role">Rol</label>
+      <input id="role" type="text" formControlName="role" />
 
-    <button type="submit" [disabled]="userForm.invalid">Guardar cambios</button>
-  </form>
-</div>
+      <button type="submit" [disabled]="userForm.invalid">Guardar cambios</button>
+    </form>
+  </div>
+</main>

@@ -1,12 +1,12 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { ShippingService } from '../../../services/shipping.service';
-import { ShippoService } from '../../../services/shippo.service';
-import { AuthService } from '../../../services/service.service';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { Subscription, interval } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import { ShippingService } from '../../../services/shipping.service';
+import { ShippoService } from '../../../services/shippo.service';
+import { BackButtonComponent } from "../../main-config/back-button/back-button.component";
 
 interface Address {
   name: string;
@@ -38,16 +38,12 @@ interface Parcel {
 export class CreateOrderComponent implements OnInit, OnDestroy {
   @ViewChild('orderForm') orderForm!: NgForm;
 
-  userName = '';
-  userMenuOpen = false;
   orderObjectId = '';
   rates: any[] = [];
   labelResult: any = null;
   loading = false;
   errorMsg = '';
-  currentDate: Date = new Date();
-  currentTime = '';
-  private clockSubscription!: Subscription;
+  private subscription!: Subscription;
 
   order = {
     address_from: {} as Address,
@@ -58,11 +54,11 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
   constructor(
     private shippingService: ShippingService,
     private shippoService: ShippoService,
-    private authService: AuthService,
     private http: HttpClient,
     private router: Router
   ) {
-    // Inicializar con un paquete por defecto
+    
+    // Initialize with a default parcel
     this.order.parcels.push({
       weight: 2,
       length: 10,
@@ -73,26 +69,20 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnInit(): void {
-    const currentUser = this.authService.getCurrentUser();
-    if (currentUser) this.userName = currentUser.name;
-
-    this.updateClock();
-    this.clockSubscription = interval(1000).subscribe(() => this.updateClock());
-  }
+  ngOnInit(): void {}
 
   ngOnDestroy(): void {
-    this.clockSubscription?.unsubscribe();
+    this.subscription?.unsubscribe();
   }
 
-  // Carga un ejemplo de direcciones y paquete
+  // Load example addresses and parcel
   loadExample(): void {
     this.order.address_from = {
       name: 'Julien Dubois',
       street1: '12 Rue de Lyon',
       city: 'Lyon',
       zip: '69002',
-      country: 'FR',  // Francia
+      country: 'FR',
       phone: '+33 4 12345678',
       email: 'julien@example.fr'
     };
@@ -102,7 +92,7 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
       street1: 'Via Roma 25',
       city: 'Milano',
       zip: '20121',
-      country: 'IT',  // Italia
+      country: 'IT',
       phone: '+39 02 98765432',
       email: 'luca@example.it'
     };
@@ -119,12 +109,9 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
     ];
   }
 
-
-
-  // Obtener tarifas
   getRates(): void {
     if (!this.orderForm?.form.valid) {
-      this.errorMsg = 'Por favor completa todos los campos requeridos.';
+      this.errorMsg = 'Please fill in all required fields.';
       return;
     }
 
@@ -132,8 +119,8 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
     this.errorMsg = '';
     this.rates = [];
 
-    this.validateAddress(this.order.address_from, 'origen')
-      .then(() => this.validateAddress(this.order.address_to, 'destino'))
+    this.validateAddress(this.order.address_from, 'origin')
+      .then(() => this.validateAddress(this.order.address_to, 'destination'))
       .then(() => this.fetchRates())
       .catch(err => {
         this.errorMsg = err;
@@ -141,20 +128,17 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
       });
   }
 
-  private validateAddress(address: Address, type: 'origen' | 'destino'): Promise<void> {
+  private validateAddress(address: Address, type: 'origin' | 'destination'): Promise<void> {
     return new Promise((resolve, reject) => {
       this.shippoService.validateAddress(address).subscribe({
         next: (res: any) => {
           if (!res?.validation_results?.is_valid) {
-            reject(`Dirección de ${type} inválida. Revisa los datos.`);
+            reject(`The ${type} address is invalid. Please check the details.`);
           } else {
             resolve();
           }
         },
-        error: (err) => {
-          console.error(err);
-          reject(`Error al validar dirección de ${type}.`);
-        }
+        error: () => reject(`Error validating the ${type} address.`)
       });
     });
   }
@@ -167,26 +151,22 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
       parcels: parcelsConverted
     };
 
-    this.http.post<any>('http://localhost:3000/rates', payload).subscribe({
+    this.subscription = this.http.post<any>('http://localhost:3000/rates', payload).subscribe({
       next: res => {
         if (res?.rates?.length) {
           this.rates = res.rates;
           this.orderObjectId = res.order_object_id || '';
-
-          // Guardamos en localStorage para RatesComponent
           localStorage.setItem('rates', JSON.stringify(this.rates));
           localStorage.setItem('orderObjectId', this.orderObjectId);
-
-          // Redirigir a RatesComponent
           this.router.navigate(['/user/rates']);
         } else {
-          this.errorMsg = 'No se encontraron tarifas para estos datos.';
+          this.errorMsg = 'No rates found for these details.';
         }
         this.loading = false;
       },
       error: err => {
-        console.error('Error al obtener tarifas:', err);
-        this.errorMsg = err.error?.message || 'Error al obtener tarifas';
+        console.error('Error fetching rates:', err);
+        this.errorMsg = err.error?.message || 'Error fetching rates';
         this.loading = false;
       }
     });
@@ -198,25 +178,6 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
     const width = parcel.distance_unit === 'cm' ? +(parcel.width * 0.393701).toFixed(2) : parcel.width;
     const height = parcel.distance_unit === 'cm' ? +(parcel.height * 0.393701).toFixed(2) : parcel.height;
     return { ...parcel, weight, length, width, height, mass_unit: 'lb', distance_unit: 'in' };
-  }
-
-  // Funciones auxiliares
-  logout(): void {
-    this.authService.logout();
-    this.router.navigate(['/login']);
-  }
-
-  updateClock(): void {
-    const now = new Date();
-    this.currentDate = now;
-    const h = now.getHours().toString().padStart(2, '0');
-    const m = now.getMinutes().toString().padStart(2, '0');
-    const s = now.getSeconds().toString().padStart(2, '0');
-    this.currentTime = `${h}:${m}:${s}`;
-  }
-
-  toggleUserMenu(): void {
-    this.userMenuOpen = !this.userMenuOpen;
   }
 
   addParcel(): void {
