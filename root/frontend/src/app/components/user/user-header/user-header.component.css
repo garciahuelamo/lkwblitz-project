@@ -12,6 +12,7 @@
   justify-content: space-between;
   box-shadow: 0 4px 10px rgba(0,0,0,0.15);
   z-index: 1000;
+  font-family: 'Inter', sans-serif; /* Fuente moderna aplicada */
 }
 
 /* Back button a la izquierda */
@@ -45,6 +46,7 @@
 .clock {
   font-size: 0.9rem;
   font-weight: 500;
+  font-family: 'Inter', sans-serif;
 }
 
 /* User info */
@@ -54,6 +56,7 @@
   gap: 0.5rem;
   cursor: pointer;
   position: relative;
+  font-family: 'Inter', sans-serif;
 }
 
 .user-info .avatar {
@@ -67,7 +70,8 @@
 .user-info .username {
   display: flex;
   align-items: center;
-  font-weight: 500;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
 }
 
 /* User menu */
@@ -83,6 +87,7 @@
   color: #333;
   font-size: 14px;
   z-index: 999;
+  font-family: 'Inter', sans-serif;
 }
 
 /* Botón de logout */
@@ -97,6 +102,7 @@
   border-radius: 4px;
   cursor: pointer;
   transition: background 0.2s ease;
+  font-family: 'Inter', sans-serif;
 }
 
 .logout-btn:hover {
@@ -106,6 +112,7 @@
 /* Logo */
 .logo {
   font-size: 1.5rem;
-  font-weight: bold;
+  font-weight: 700;
   color: white;
+  font-family: 'Inter', sans-serif;
 }

@@ -1,5 +1,5 @@
 // admin-panel.component.ts
-import { Component, OnInit } from '@angular/core';
+/*import { Component, OnInit } from '@angular/core';
 import { AuthService, User } from '../../../services/service.service';
 import { CommonModule } from '@angular/common';
 
@@ -68,4 +68,4 @@ export class AdminPanelComponent implements OnInit {
       error: (err) => alert('Error al borrar usuario: ' + err.error.message),
     });
   }
-}
+}*/

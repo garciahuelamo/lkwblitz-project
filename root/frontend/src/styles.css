@@ -1,1 +1,18 @@
-/* You can add global styles to this file, and also import other style files */
+.top-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  padding: 0 2rem;
+  background-color: #088349;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  z-index: 1000;
+
+  font-family: 'Inter', sans-serif; 
+}
+

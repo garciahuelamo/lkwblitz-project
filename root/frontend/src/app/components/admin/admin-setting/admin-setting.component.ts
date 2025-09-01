@@ -18,7 +18,6 @@ export class AdminSettingComponent {
     this.userForm = this.fb.group({
       name: [''],
       email: [''],
-      // otros campos que quieras permitir editar
     });
   }
 
@@ -29,7 +28,6 @@ export class AdminSettingComponent {
       this.userForm.patchValue({
         name: this.currentUser.name,
         email: this.currentUser.email,
-        // otros campos si los tienes
       });
     }
   }
@@ -37,11 +35,10 @@ export class AdminSettingComponent {
   onSubmit() {
     if (this.userForm.valid) {
       const updatedUser = this.userForm.value;
-      // Aquí deberías llamar un método en el AuthService para actualizar datos del usuario
+     
       this.authService.updateUser(updatedUser).subscribe({
         next: (res) => {
           alert('Datos actualizados correctamente');
-          // actualizar el localStorage si es necesario
         },
         error: (err) => {
           alert('Error al actualizar usuario');

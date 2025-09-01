@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../../services/service.service'; // Ajusta la ruta
+import { AuthService } from '../../../services/service.service'; 
 
 @Component({
   selector: 'app-admin-home',
@@ -16,9 +16,9 @@ export class AdminHomeComponent implements OnInit, OnDestroy {
   currentTime: string = '';
   private timer: any;
   userName = '';
-  userAvatar = '/root/frontend/src/assets/logo.jpeg'; // avatar por defecto
+  userAvatar = 'assets/default.png'; 
 
-  userMenuOpen = false;  // Controla el menú desplegable
+  userMenuOpen = false;  
 
   constructor(
     private router: Router,
@@ -32,7 +32,7 @@ export class AdminHomeComponent implements OnInit, OnDestroy {
       this.userName = user.name || '';
       this.userAvatar = user.avatar 
         ? (/^https?:\/\//.test(user.avatar) ? user.avatar : `assets/${user.avatar}`)
-        : '/root/frontend/src/assets/logo.jpeg';
+        : 'assets/default.png';
     }
 
     this.updateTime();
@@ -40,7 +40,9 @@ export class AdminHomeComponent implements OnInit, OnDestroy {
   }
 
   goTo(path: string) {
-    this.router.navigate([path], { relativeTo: this.activatedRoute });
+    if (typeof path === 'string' && path.trim()) {
+      this.router.navigate([path], { relativeTo: this.activatedRoute });
+    }
   }
 
   updateTime() {
@@ -54,7 +56,7 @@ export class AdminHomeComponent implements OnInit, OnDestroy {
   }
 
   logout() {
-    this.authService.logout();  // Suponiendo que tienes este método en tu servicio Auth
+    this.authService.logout();  
     this.router.navigate(['/login']);
   }
 
