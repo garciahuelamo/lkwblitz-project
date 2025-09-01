@@ -3,12 +3,11 @@ import { Router } from '@angular/router';
 import { ShippingService } from '../../../services/shipping.service';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../services/service.service';
-import { BackButtonComponent } from "../../main-config/back-button/back-button.component";
 
 @Component({
   selector: 'app-rates',
   standalone: true,
-  imports: [CommonModule, BackButtonComponent],
+  imports: [CommonModule],
   templateUrl: './rates.component.html',
   styleUrls: ['./rates.component.css', '../user-header/user-header.component.css', '../user-home/user-home.component.css']
 })
