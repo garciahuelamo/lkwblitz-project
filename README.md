@@ -1,28 +1,49 @@
-# lkwblitz-project
+# 🚛 LKWBlitz Vergleicher
 
-LKWBlitz Vergleicher
+## 🔹 Project Summary
 
-Project Summary
+**LKWBlitz Vergleicher** is an interactive web application designed for **SMEs in the logistics sector**, aimed at **facilitating transportation rate comparisons** from different carriers quickly and reliably. Users can enter key parameters such as:
 
-LKWBlitz Vergleicher is an interactive web application designed for SMEs in the logistics sector, aimed at facilitating the comparison of transportation rates from different carriers quickly and reliably. Users can enter key parameters (origin, destination, cargo type, urgency, restrictions, etc.) and retrieve real-time rates through integration with the Shipo API.
+- Origin & destination
+- Cargo type
+- Urgency
+- Restrictions
 
-The project is built using Angular for the frontend and Node.js with Express for the backend, with a MySQL database managed in DBeaver. Development followed an Agile methodology, using GitHub for version control and Jasmine for unit testing, ensuring system reliability and modularity.
+and retrieve **real-time rates** through integration with the **Shipo API**.
 
-Planned future improvements include:
+---
 
-Expanding Shipo API integration to include shipment tracking and advanced validations.
+## 💻 Technology Stack
 
-Integrating additional APIs, such as ProXio Systems, to estimate CO₂ emissions and incorporate sustainability criteria.
+- **Frontend:** Angular  
+- **Backend:** Node.js, Express  
+- **Database:** MySQL (managed with DBeaver)  
+- **Version Control:** GitHub  
+- **Unit Testing:** Jasmine  
+- **APIs:** Shipo API, ProXio Systems (planned)
 
-Developing AI algorithms to provide optimized transport recommendations based on cost, time, and environmental impact.
+---
 
-Preparing for cloud deployment and scalability, aiming to commercialize the application as a complete solution for SMEs.
+## 🚀 Features & Future Improvements
 
-Key technologies:
+- Expand Shipo API integration (shipment tracking, advanced validations)  
+- Integrate additional APIs like **ProXio Systems** for **CO₂ emissions estimation**  
+- Implement **AI algorithms** for optimized transport recommendations based on cost, time, and sustainability  
+- Prepare for **cloud deployment** and scalability  
+- **Commercialization plan** as a full logistics solution for SMEs
 
-Frontend: Angular
+---
 
-Backend: Node.js, Express
+## 🎯 Expected Impact
+
+This project provides a **functional, scalable, and flexible tool** to help SMEs make **informed logistics decisions**, considering **cost, delivery time, and environmental sustainability**.
+
+---
+
+## 📄 License
+
+*(Add your license info here, e.g., MIT License)*
+
 
 Database: MySQL
 
