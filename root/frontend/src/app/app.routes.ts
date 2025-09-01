@@ -11,15 +11,14 @@ import { authGuard } from './guards/auth.guard';
 import { roleGuard } from './guards/role.guard';
 import { CreateOrderComponent } from './components/user/create-order/create-order.component';
 import { RatesComponent } from './components/user/rates/rates.component';
-
+import { UserSettingsComponent } from './components/user/user-settings/user-settings.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'reset-password/:token', component: ResetPasswordComponent },
 
-    //HOME's:
-
+  // HOME's
   { 
     path: 'admin/home', 
     component: AdminHomeComponent,
@@ -36,25 +35,26 @@ export const routes: Routes = [
     path: 'user/home',
     component: UserHomeComponent, // layout con header y cards
     canActivate: [authGuard, roleGuard],
-    data: { role: 'user' }
+    data: { role: 'user' },
+    children: [
+      { path: 'settings', component: UserSettingsComponent }, // <-- agregada ruta de settings
+      { path: '', redirectTo: '', pathMatch: 'full' }
+    ]
   },
   {
     path: 'user/create-order', 
-    component: CreateOrderComponent, // <--- página independiente solo con el formulario
+    component: CreateOrderComponent, // página independiente solo con el formulario
     canActivate: [authGuard, roleGuard],
     data: { role: 'user' }
   },
   {
     path: 'user/rates', 
-    component: RatesComponent,  // <-- ruta para la página de tarifas
+    component: RatesComponent,  // página de tarifas
     canActivate: [authGuard, roleGuard],
     data: { role: 'user' }
   },
 
-    //DEFAULT:
-
+  // DEFAULT
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: '**', redirectTo: 'login' },
 ];
-
-

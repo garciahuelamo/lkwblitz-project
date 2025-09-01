@@ -33,7 +33,7 @@ export class AdminUsersComponent implements OnInit {
     this.userService.getUsers().subscribe({
       next: (data) => {
         this.users = data;
-        this.filteredUsers = data; // Copia completa para filtrar
+        this.filteredUsers = data; 
         this.loading = false;
       },
       error: (err) => {
@@ -75,7 +75,7 @@ export class AdminUsersComponent implements OnInit {
       this.userService.updateUser(user).subscribe({
         next: () => {
           this.updatingUserId = null;
-          this.loadUsers(); // Recargar la lista
+          this.loadUsers();
         },
         error: () => {
           this.updatingUserId = null;
@@ -87,7 +87,6 @@ export class AdminUsersComponent implements OnInit {
 
   startEditing(user: any) {
     this.editingUserId = user.id;
-    // Clona el usuario para no modificar directamente la lista mientras editas
     this.editedUser = { ...user };
   }
 
@@ -105,7 +104,7 @@ export class AdminUsersComponent implements OnInit {
         this.updatingUserId = null;
         this.editingUserId = null;
         this.editedUser = null;
-        this.loadUsers(); // refresca la lista para mostrar cambios
+        this.loadUsers();
       },
       error: () => {
         this.updatingUserId = null;

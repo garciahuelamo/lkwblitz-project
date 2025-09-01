@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { AuthService } from '../../../services/service.service'; // ruta según tu proyecto
+import { AuthService } from '../../../services/service.service'; 
 import { Router } from '@angular/router';
 
 @Component({
@@ -22,7 +22,7 @@ export class LoginComponent {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
 
-  isRegisterMode = false;  // <-- controla si estamos en modo registro o login
+  isRegisterMode = false; 
 
   loginForm = this.fb.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
@@ -57,7 +57,7 @@ export class LoginComponent {
     this.authService.login({
       email,
       password,
-      rememberMe: remember // mapeo al nombre que espera el backend
+      rememberMe: remember 
     }).subscribe({
       next: (res) => {
         this.loading = false;
@@ -70,7 +70,7 @@ export class LoginComponent {
         if (res.user.role === 'admin') {
           this.router.navigate(['/admin/home']);
         } else {
-          this.router.navigate(['/user/home']); // CORRECTO
+          this.router.navigate(['/user/home']);
         }
 
         console.log(res)
