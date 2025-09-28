@@ -14,11 +14,12 @@ import { BackButtonComponent } from '../../main-config/back-button/back-button.c
   styleUrls: ['./user-header.component.css']
 })
 export class UserHeaderComponent implements OnInit, OnDestroy {
-  userName = 'Guest'; // Por defecto
+  userName = '';
   userMenuOpen = false;
   currentDate: Date = new Date();
   currentTime: string = '';
   private clockSubscription!: Subscription;
+  private userSubscription!: Subscription;
 
   constructor(
     private authService: AuthService,
@@ -27,12 +28,11 @@ export class UserHeaderComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      this.authService.currentUser$.subscribe(user => {
-        this.userName = user?.name || 'Guest';
-      });
+    this.userSubscription = this.authService.currentUser$.subscribe(user => {
+      this.userName = user?.name || '';
+    });
 
-      // Reloj
+    if (isPlatformBrowser(this.platformId)) {
       this.updateClock();
       this.clockSubscription = interval(1000).subscribe(() => this.updateClock());
     }
@@ -40,6 +40,7 @@ export class UserHeaderComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.clockSubscription?.unsubscribe();
+    this.userSubscription?.unsubscribe();
   }
 
   toggleUserMenu(): void {
@@ -48,7 +49,6 @@ export class UserHeaderComponent implements OnInit, OnDestroy {
 
   logout(): void {
     this.authService.logout();
-    this.userName = 'Guest';
     this.userMenuOpen = false;
     this.router.navigate(['/login']);
   }
@@ -56,6 +56,7 @@ export class UserHeaderComponent implements OnInit, OnDestroy {
   private updateClock(): void {
     const now = new Date();
     this.currentDate = now;
+
     const h = now.getHours().toString().padStart(2, '0');
     const m = now.getMinutes().toString().padStart(2, '0');
     const s = now.getSeconds().toString().padStart(2, '0');

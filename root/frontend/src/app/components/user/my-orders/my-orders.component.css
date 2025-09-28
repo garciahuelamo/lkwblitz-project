@@ -1,0 +1,120 @@
+/* --- CONTENEDOR GENERAL --- */
+.page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+  background: linear-gradient(135deg, #202022, #7b857f);
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding-top: 6rem; /* espacio para header */
+  box-sizing: border-box;
+}
+
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* --- ORDERS CONTAINER --- */
+.orders-container {
+  background-color: #ffffff;
+  width: 95%;
+  max-width: 1200px;
+  border-radius: 12px;
+  padding: 2rem 2.5rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  margin: 2rem auto 3rem auto; /* centrado horizontal */
+}
+
+/* Título */
+.orders-container h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #088349;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+/* --- LISTADO DE PEDIDOS --- */
+.orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+/* Cada tarjeta de pedido */
+.order-card {
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  padding: 1.5rem 2rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.order-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+}
+
+/* Encabezado y cuerpo */
+.order-header, .order-body {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.order-footer {
+  font-weight: bold;
+  text-align: right;
+  font-size: 0.95rem;
+}
+
+/* Estado del pedido */
+.order-status {
+  font-weight: 600;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  display: inline-block;
+  font-size: 0.85rem;
+}
+
+/* Colores por estado */
+.status-pending { background-color: #facc15; color: #000; }
+.status-shipped { background-color: #3b82f6; }
+.status-delivered { background-color: #16a34a; }
+.status-cancelled { background-color: #ef4444; }
+
+/* Mensaje si no hay pedidos */
+.no-orders {
+  text-align: center;
+  color: #999;
+  font-size: 1rem;
+  padding: 2rem 0;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 900px) {
+  .orders-container {
+    padding: 1.5rem 1.5rem;
+  }
+
+  .order-card {
+    padding: 1rem 1.2rem;
+  }
+
+  .order-header, .order-body {
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .order-footer {
+    text-align: left;
+  }
+}

@@ -1,71 +1,154 @@
+/* --- CONTENEDOR GENERAL --- */
 .page-container {
   display: flex;
   flex-direction: column;
+  align-items: center;
   min-height: 100vh;
   width: 100%;
   background: linear-gradient(135deg, #202022, #7b857f);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  padding-top: 60px;
-  box-sizing: border-box;
-  justify-content: flex-start;
-  align-items: center;
-  overflow-x: hidden;
-}
-
-*, *::before, *::after {
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding-top: 6rem; /* espacio para header */
   box-sizing: border-box;
 }
 
+/* --- FORM CONTAINER --- */
 .order-form-container {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
+  background-color: #ffffff;
+  width: 95%;
   max-width: 1200px;
-  padding: 30px 20px;
   border-radius: 12px;
-  background-color: #e0e0e0;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  margin: 0 auto 40px auto;
+  padding: 2rem 2.5rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  margin-bottom: 3rem;
 }
 
+.order-form-container h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #088349;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+/* --- COLUMNAS DEL FORMULARIO --- */
 .form-columns {
   display: flex;
-  justify-content: space-between;
   gap: 20px;
-  flex-wrap: wrap;
+  flex-wrap: wrap; /* se apila en móviles */
 }
 
 .form-section {
-  flex: 1 1 300px;
-  background-color: #ffffff;
-  padding: 20px;
+  flex: 1 1 300px; /* mínimo 300px y flexible */
+  background-color: #f9f9f9;
   border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  min-width: 0;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
+.form-section h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #16a34a;
+  margin-bottom: 1rem;
+}
+
+/* --- GRUPO DE INPUTS --- */
 .form-group {
   display: flex;
   flex-direction: column;
-  margin-bottom: 10px;
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  font-weight: 500;
+  margin-bottom: 0.3rem;
+  color: #333;
 }
 
 .form-group input {
-  padding: 8px;
-  border-radius: 5px;
+  padding: 0.6rem 0.8rem;
   border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
+.form-group input:focus {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.2);
+  outline: none;
+}
+
+/* --- BOTONES DE PARCELS --- */
+.parcel-group button {
+  margin-top: 0.5rem;
+  align-self: flex-start;
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.parcel-group button:hover {
+  background-color: #dc2626;
+  transform: translateY(-2px);
+}
+
+/* --- BOTONES GENERALES DEL FORM --- */
 .form-actions {
-  margin-top: 20px;
   display: flex;
-  gap: 10px;
-  justify-content: flex-start;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
 }
 
-@media (max-width: 1000px) {
+.form-actions button {
+  padding: 0.7rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.form-actions button[type="submit"] {
+  background-color: #16a34a;
+  color: white;
+}
+
+.form-actions button[type="submit"]:hover:not(:disabled) {
+  background-color: #22c55e;
+  transform: translateY(-2px);
+}
+
+.form-actions button[type="button"] {
+  background-color: #f3f4f6;
+  color: #333;
+}
+
+.form-actions button[type="button"]:hover {
+  background-color: #e5e7eb;
+}
+
+/* --- MENSAJE DE ERROR --- */
+.error {
+  margin-top: 1rem;
+  color: #ef4444;
+  font-weight: 500;
+  text-align: center;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 900px) {
   .form-columns {
     flex-direction: column;
-    gap: 20px;
+  }
+
+  .form-section {
+    width: 100%;
   }
 }

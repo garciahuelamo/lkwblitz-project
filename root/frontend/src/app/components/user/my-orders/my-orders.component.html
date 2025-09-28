@@ -1,0 +1,33 @@
+<div class="page-container">
+  <div class="orders-container">
+    <h2>My Orders</h2>
+
+    <div *ngIf="orders.length === 0" class="no-orders">
+      No orders found.
+    </div>
+
+    <div *ngFor="let order of orders" class="order-card">
+      <div class="order-header">
+        <span class="order-id">{{ order.id }}</span>
+        <span class="order-date">{{ order.date }}</span>
+      </div>
+      <div class="order-body">
+        <span class="order-items">{{ order.items }} item(s)</span>
+        <span class="order-total">${{ order.total.toFixed(2) }}</span>
+      </div>
+      <div class="order-footer">
+        <span 
+          class="order-status"
+          [ngClass]="{
+            'status-pending': order.status === 'Pending',
+            'status-shipped': order.status === 'Shipped',
+            'status-delivered': order.status === 'Delivered',
+            'status-cancelled': order.status === 'Cancelled'
+          }">
+          {{ order.status }}
+        </span>
+      </div>
+    </div>
+
+  </div>
+</div>

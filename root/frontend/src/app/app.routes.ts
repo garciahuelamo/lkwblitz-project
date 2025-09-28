@@ -11,14 +11,17 @@ import { authGuard } from './guards/auth.guard';
 import { roleGuard } from './guards/role.guard';
 import { CreateOrderComponent } from './components/user/create-order/create-order.component';
 import { RatesComponent } from './components/user/rates/rates.component';
+import { MyOrdersComponent } from './components/user/my-orders/my-orders.component';
 import { UserSettingsComponent } from './components/user/user-settings/user-settings.component';
+
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'reset-password/:token', component: ResetPasswordComponent },
 
-  // HOME's
+    //HOME's:
+
   { 
     path: 'admin/home', 
     component: AdminHomeComponent,
@@ -35,26 +38,37 @@ export const routes: Routes = [
     path: 'user/home',
     component: UserHomeComponent, // layout con header y cards
     canActivate: [authGuard, roleGuard],
-    data: { role: 'user' },
-    children: [
-      { path: 'settings', component: UserSettingsComponent }, // <-- agregada ruta de settings
-      { path: '', redirectTo: '', pathMatch: 'full' }
-    ]
+    data: { role: 'user' }
   },
   {
     path: 'user/create-order', 
-    component: CreateOrderComponent, // página independiente solo con el formulario
+    component: CreateOrderComponent, // <--- página independiente solo con el formulario
     canActivate: [authGuard, roleGuard],
     data: { role: 'user' }
   },
   {
     path: 'user/rates', 
-    component: RatesComponent,  // página de tarifas
+    component: RatesComponent,  // <-- ruta para la página de tarifas
+    canActivate: [authGuard, roleGuard],
+    data: { role: 'user' }
+  },
+  {
+    path: 'user/orders',
+    component: MyOrdersComponent,
+    canActivate: [authGuard, roleGuard],
+    data: { role: 'user' }
+  },
+  {
+    path: 'user/settings',
+    component: UserSettingsComponent,
     canActivate: [authGuard, roleGuard],
     data: { role: 'user' }
   },
 
-  // DEFAULT
+    //DEFAULT:
+
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: '**', redirectTo: 'login' },
 ];
+
+

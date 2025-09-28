@@ -5,9 +5,9 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-card',
   standalone: true,
-  imports: [CommonModule], 
+  imports: [CommonModule], // necesario para directivas estructurales
   templateUrl: './card.component.html',
-  styleUrls: ['./card.component.css'] 
+  styleUrls: ['./card.component.css'] // CORREGIDO
 })
 export class CardComponent {
   constructor(private router: Router) {}

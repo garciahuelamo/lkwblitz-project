@@ -7,6 +7,7 @@
     <h2 *ngIf="!isRegisterMode">Login</h2>
     <h2 *ngIf="isRegisterMode">Register</h2>
 
+    <!-- FORM LOGIN -->
     <form *ngIf="!isRegisterMode" [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()">
       <input formControlName="email" type="email" placeholder="Email" />
       <input formControlName="password" type="password" placeholder="Password" />
@@ -18,6 +19,7 @@
       <button type="submit" [disabled]="loading">Login</button>
     </form>
 
+    <!-- FORM REGISTRO -->
     <form *ngIf="isRegisterMode" [formGroup]="registerForm" (ngSubmit)="onRegisterSubmit()">
       <input formControlName="name" type="text" placeholder="Name" />
       <input formControlName="email" type="email" placeholder="Email" />
@@ -26,15 +28,27 @@
       <button type="submit" [disabled]="loading">Register</button>
     </form>
 
+    <!-- LINK PARA CAMBIAR DE MODO -->
     <p class="toggle-link" (click)="toggleMode()">
       {{ isRegisterMode ? 'Do you have an account? Log in' : '¿Not yet? Register' }}
     </p>
 
+    <!-- BOTON OLVIDE CONTRASEÑA -->
     <button type="button" (click)="goToForgotPassword()" class="btn-link">
       Forgot your password?
     </button>
 
+    <!-- MENSAJES DE ESTADO -->
     <p *ngIf="loading" style="text-align:center; margin-top:1rem;">Loading...</p>
     <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
+  </div>
+
+  <!-- POPUP DE REGISTRO EXITOSO -->
+  <div *ngIf="showRegisterPopup" class="popup">
+    <div class="popup-content">
+      <h3>Registro exitoso 🎉</h3>
+      <p>Usuario registrado correctamente. Ahora puedes iniciar sesión.</p>
+      <button (click)="closeRegisterPopup()">Cerrar</button>
+    </div>
   </div>
 </div>
