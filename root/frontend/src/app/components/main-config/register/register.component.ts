@@ -18,6 +18,7 @@ export class RegisterComponent {
   password = '';
   loading = false;
   errorMessage = '';
+  showPopup: boolean = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -33,7 +34,9 @@ export class RegisterComponent {
       next: (res) => {
         console.log('Usuario registrado:', res.user);
         localStorage.setItem('token', res.token);
-        this.router.navigate(['/dashboard']);
+
+        // Mostrar popup manualmente
+        this.showPopup = true;  
       },
       error: (err) => {
         this.errorMessage = err.error.message || 'Error en el registro';
@@ -45,4 +48,8 @@ export class RegisterComponent {
     });
   }
 
+  closePopup() {
+    this.showPopup = false;
+    this.router.navigate(['/dashboard']); // Navega después de cerrar el popup
+  }
 }

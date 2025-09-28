@@ -1,0 +1,38 @@
+.page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.dashboard-container {
+  width: 120%;
+  padding: 2rem; 
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  box-sizing: border-box;
+}
+
+.charts-grid {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 1800px;
+}
+
+.chart-card {
+  flex: 1 1 500px; 
+  max-width: 600px;
+  min-width: 300px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  padding: 3rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 5rem;
+  margin-left: 0.5rem;
+}

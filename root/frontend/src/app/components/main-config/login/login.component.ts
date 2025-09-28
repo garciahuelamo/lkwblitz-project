@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { AuthService } from '../../../services/service.service'; 
+import { AuthService } from '../../../services/service.service'; // Ajusta la ruta
 import { Router } from '@angular/router';
 
 @Component({
@@ -11,18 +11,15 @@ import { Router } from '@angular/router';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
-
 export class LoginComponent {
-  constructor(private router: Router) {}
-
-  goToForgotPassword() {
-    this.router.navigate(['/forgot-password']);
-  }
-
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
+  private router = inject(Router);
 
-  isRegisterMode = false; 
+  isRegisterMode = false;  // Modo login/registro
+  loading = false;
+  errorMessage: string = '';
+  showRegisterPopup: boolean = false; // controla el popup de registro
 
   loginForm = this.fb.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
@@ -37,13 +34,16 @@ export class LoginComponent {
     confirmPassword: ['', [Validators.required]],
   });
 
-  loading = false;
-  errorMessage: any;
+  toggleMode() {
+    this.isRegisterMode = !this.isRegisterMode;
+    this.errorMessage = '';
+  }
 
-    toggleMode() {
-      this.isRegisterMode = !this.isRegisterMode;
-    }
+  goToForgotPassword() {
+    this.router.navigate(['/forgot-password']);
+  }
 
+  // --- LOGIN ---
   onLoginSubmit() {
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
@@ -54,63 +54,55 @@ export class LoginComponent {
 
     const { email, password, remember } = this.loginForm.getRawValue();
 
-    this.authService.login({
-      email,
-      password,
-      rememberMe: remember 
-    }).subscribe({
+    this.authService.login({ email, password, rememberMe: remember }).subscribe({
       next: (res) => {
         this.loading = false;
-
-            // Guardar token y el rol de usuario
         localStorage.setItem('token', res.token);
         localStorage.setItem('userRole', res.user.role);
-        
-            // Redirigimos según el rol
+
         if (res.user.role === 'admin') {
           this.router.navigate(['/admin/home']);
         } else {
           this.router.navigate(['/user/home']);
         }
-
-        console.log(res)
       },
       error: (err) => {
         this.loading = false;
-        alert(err.error?.message || 'Error logging in');
-      }
+        this.errorMessage = err.error?.message || 'Error al iniciar sesión';
+      },
     });
-}
-
-
-onRegisterSubmit() {
-  if (this.registerForm.invalid) {
-    this.registerForm.markAllAsTouched();
-    return;
   }
 
-  if (this.registerForm.value.password !== this.registerForm.value.confirmPassword) {
-    alert('Las contraseñas no coinciden');
-    return;
-  }
+  // --- REGISTRO ---
+  onRegisterSubmit() {
+    if (this.registerForm.invalid) {
+      this.registerForm.markAllAsTouched();
+      return;
+    }
 
-  this.loading = true;
+    if (this.registerForm.value.password !== this.registerForm.value.confirmPassword) {
+      this.errorMessage = 'Las contraseñas no coinciden';
+      return;
+    }
 
-  const { name, email, password } = this.registerForm.getRawValue();
+    this.loading = true;
 
-  this.authService.register({ name, email, password })
-    .subscribe({
+    const { name, email, password } = this.registerForm.getRawValue();
+
+    this.authService.register({ name, email, password }).subscribe({
       next: (res) => {
         this.loading = false;
-        alert('Usuario registrado correctamente. Ahora puedes iniciar sesión.');
-        this.toggleMode();
+        this.showRegisterPopup = true; // mostrar popup en lugar de alert
       },
       error: (err) => {
         this.loading = false;
-        alert(err.error?.message || 'Error al registrar usuario');
-      }
+        this.errorMessage = err.error?.message || 'Error al registrar usuario';
+      },
     });
   }
+
+  closeRegisterPopup() {
+    this.showRegisterPopup = false;
+    this.toggleMode(); // volver al modo login
+  }
 }
-
-

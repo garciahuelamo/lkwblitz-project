@@ -3,12 +3,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-// Interfaz para tipado fuerte
+// Strongly typed User interface
 export interface User {
   id: number;
   name: string;
   email: string;
   role: string;
+  avatar?: string; // optional
 }
 
 @Injectable({
@@ -19,10 +20,11 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
+  // Helper: get headers with Bearer token
   private getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('token');
     if (!token) {
-      throw new Error('No se encontró token de autenticación');
+      throw new Error('Authentication token not found');
     }
     return new HttpHeaders({
       'Authorization': `Bearer ${token}`,
@@ -30,33 +32,50 @@ export class UserService {
     });
   }
 
+  // Get all users
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(`${this.apiUrl}/users`, { headers: this.getAuthHeaders() })
       .pipe(
         catchError(err => {
-          console.error('Error al obtener usuarios:', err);
+          console.error('Failed to fetch users:', err);
           return throwError(() => err);
         })
       );
   }
 
+  // Delete a user by ID
   deleteUser(userId: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/delete-user/${userId}`, { headers: this.getAuthHeaders() })
       .pipe(
         catchError(err => {
-          console.error(`Error al eliminar usuario ${userId}:`, err);
+          console.error(`Failed to delete user ${userId}:`, err);
           return throwError(() => err);
         })
       );
   }
 
-  updateUser(user: User): Observable<User> {
+  // Update a user
+  updateUser(user: Partial<User> & { id: number }): Observable<User> {
     return this.http.put<User>(`${this.apiUrl}/update-user/${user.id}`, user, { headers: this.getAuthHeaders() })
       .pipe(
         catchError(err => {
-          console.error(`Error al actualizar usuario ${user.id}:`, err);
+          console.error(`Failed to update user ${user.id}:`, err);
           return throwError(() => err);
         })
       );
+  }
+
+  // Optional: change user role
+  changeUserRole(userId: number, role: string): Observable<{ message: string }> {
+    return this.http.put<{ message: string }>(
+      `${this.apiUrl}/change-role`,
+      { userId, newRole: role },
+      { headers: this.getAuthHeaders() }
+    ).pipe(
+      catchError(err => {
+        console.error(`Failed to change role for user ${userId}:`, err);
+        return throwError(() => err);
+      })
+    );
   }
 }

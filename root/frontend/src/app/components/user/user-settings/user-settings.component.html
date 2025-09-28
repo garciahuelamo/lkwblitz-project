@@ -1,18 +1,63 @@
 <main class="main-content">
   <div class="form-container">
-    <h2>Configuración de Usuario</h2>
+    <h2>User Settings</h2>
 
-    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
-      <label for="name">Nombre</label>
-      <input id="name" type="text" formControlName="name" />
+    <form [formGroup]="userForm">
+      <!-- Nombre / Apellidos -->
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input
+          id="name"
+          type="text"
+          formControlName="name"
+          placeholder="Enter your name"
+        />
+      </div>
 
-      <label for="email">Email</label>
-      <input id="email" type="email" formControlName="email" />
+      <!-- Correo -->
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          placeholder="Enter your email"
+        />
+      </div>
 
-      <label for="role">Rol</label>
-      <input id="role" type="text" formControlName="role" readonly />
-
-      <button type="submit" [disabled]="userForm.invalid">Guardar cambios</button>
+      <!-- Botón Guardar -->
+      <div class="form-actions">
+        <button
+          type="button"
+          (click)="openSaveModal()"
+          [disabled]="userForm.invalid"
+        >
+          Request Changes
+        </button>
+      </div>
     </form>
   </div>
 </main>
+
+<!-- Modal de Confirmación -->
+<div class="modal-backdrop" *ngIf="modalOpen">
+  <div class="modal">
+    <h3>Confirm Changes</h3>
+    <p>
+      Are you sure you want to send the following changes for
+      <strong>{{ currentUser?.name }}</strong>?
+    </p>
+    <ul>
+      <li *ngIf="userForm.value.name !== currentUser?.name">
+        Name: {{ userForm.value.name }}
+      </li>
+      <li *ngIf="userForm.value.email !== currentUser?.email">
+        Email: {{ userForm.value.email }}
+      </li>
+    </ul>
+    <div class="modal-buttons">
+      <button class="update" (click)="confirmSave()">Yes, Send</button>
+      <button class="cancel" (click)="closeModal()">Cancel</button>
+    </div>
+  </div>
+</div>

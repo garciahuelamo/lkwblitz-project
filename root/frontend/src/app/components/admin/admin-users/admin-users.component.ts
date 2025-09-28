@@ -10,17 +10,18 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './admin-users.component.html',
   styleUrls: ['./admin-users.component.css', '../admin-home/admin-home.component.css']
 })
-
 export class AdminUsersComponent implements OnInit {
   users: any[] = [];
   filteredUsers: any[] = [];
   loading = false;
   errorMessage = '';
   updatingUserId: number | null = null;
-  editingUserId: number | null = null;
   editedUser: any = null;
-
   searchTerm: string = '';
+
+  // --- Modal properties ---
+  modalUser: any = null;
+  modalAction: 'delete' | 'edit' | null = null;
 
   constructor(private userService: UserService) {}
 
@@ -33,11 +34,11 @@ export class AdminUsersComponent implements OnInit {
     this.userService.getUsers().subscribe({
       next: (data) => {
         this.users = data;
-        this.filteredUsers = data; 
+        this.filteredUsers = data;
         this.loading = false;
       },
-      error: (err) => {
-        this.errorMessage = 'Error al cargar usuarios';
+      error: () => {
+        this.errorMessage = 'Error loading users';
         this.loading = false;
       }
     });
@@ -51,66 +52,51 @@ export class AdminUsersComponent implements OnInit {
     );
   }
 
-  deletingUserId: number | null = null;
-
-  deleteUser(id: number) {
-    if (confirm('¿Seguro que quieres eliminar este usuario?')) {
-      this.deletingUserId = id;
-      this.userService.deleteUser(id).subscribe({
-        next: () => {
-          this.deletingUserId = null;
-          this.loadUsers();
-        },
-        error: () => {
-          this.deletingUserId = null;
-          alert('Error al eliminar el usuario');
-        }
-      });
-    }
+  // --- Modal Methods ---
+  openDeleteModal(user: any) {
+    this.modalUser = user;
+    this.modalAction = 'delete';
   }
 
-  updateUser(user: any) {
-    if (confirm(`¿Quieres actualizar el usuario ${user.name}?`)) {
-      this.updatingUserId = user.id;
-      this.userService.updateUser(user).subscribe({
-        next: () => {
-          this.updatingUserId = null;
-          this.loadUsers();
-        },
-        error: () => {
-          this.updatingUserId = null;
-          alert('Error al actualizar el usuario');
-        }
-      });
-    }
+  openEditModal(user: any) {
+    this.modalUser = user;
+    this.modalAction = 'edit';
+    this.editedUser = { ...user }; 
   }
 
-  startEditing(user: any) {
-    this.editingUserId = user.id;
-    this.editedUser = { ...user };
-  }
-
-  cancelEditing() {
-    this.editingUserId = null;
+  closeModal() {
+    this.modalUser = null;
+    this.modalAction = null;
     this.editedUser = null;
   }
 
-  saveUser() {
-    if (!this.editedUser) return;
-
-    this.updatingUserId = this.editedUser.id;
-    this.userService.updateUser(this.editedUser).subscribe({
+  confirmDeleteUser() {
+    if (!this.modalUser) return;
+    this.updatingUserId = this.modalUser.id;
+    this.userService.deleteUser(this.modalUser.id).subscribe({
       next: () => {
-        this.updatingUserId = null;
-        this.editingUserId = null;
-        this.editedUser = null;
         this.loadUsers();
+        this.closeModal();
       },
       error: () => {
         this.updatingUserId = null;
-        alert('Error al actualizar el usuario');
+        this.errorMessage = 'Failed to delete user'; 
       }
     });
   }
 
+  saveUser() {
+    if (!this.editedUser) return;
+    this.updatingUserId = this.editedUser.id;
+    this.userService.updateUser(this.editedUser).subscribe({
+      next: () => {
+        this.loadUsers();
+        this.closeModal();
+      },
+      error: () => {
+        this.updatingUserId = null;
+        this.errorMessage = 'Failed to update user'; 
+      }
+    });
+  }
 }

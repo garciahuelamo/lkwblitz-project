@@ -16,18 +16,42 @@ export interface User {
 })
 export class AuthService {
   private apiUrl = 'http://localhost:3000';
+
   private currentUserSubject = new BehaviorSubject<User | null>(this.getCurrentUser());
+  currentUser$ = this.currentUserSubject.asObservable();
 
   constructor(private http: HttpClient) {}
-
-  // Observable para suscribirse en componentes
-  get currentUser$(): Observable<User | null> {
-    return this.currentUserSubject.asObservable();
-  }
 
   private getAuthHeaders(): HttpHeaders {
     const token = typeof window !== 'undefined' ? localStorage.getItem('token') || '' : '';
     return new HttpHeaders({ Authorization: `Bearer ${token}` });
+  }
+
+  requestUserChange(data: Partial<User>): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(
+      `${this.apiUrl}/user/request-change`,
+      data,
+      { headers: this.getAuthHeaders() }
+    ).pipe(
+      catchError(err => {
+        console.error('Error sending change request:', err);
+        return throwError(() => err);
+      })
+    );
+  }
+
+  login(data: { email: string; password: string; rememberMe?: boolean }): Observable<{ token: string; user: User }> {
+    return this.http.post<{ token: string; user: User }>(`${this.apiUrl}/login`, data)
+      .pipe(
+        tap(response => {
+          if (typeof window !== 'undefined') {
+            localStorage.setItem('token', response.token);
+            localStorage.setItem('user', JSON.stringify(response.user));
+          }
+          this.currentUserSubject.next(response.user); 
+        }),
+        catchError(err => throwError(() => err))
+      );
   }
 
   register(data: { name: string; email: string; password: string }): Observable<{ token: string; user: User }> {
@@ -37,29 +61,13 @@ export class AuthService {
           if (typeof window !== 'undefined') {
             localStorage.setItem('token', response.token);
             localStorage.setItem('user', JSON.stringify(response.user));
-            this.currentUserSubject.next(response.user);
           }
+          this.currentUserSubject.next(response.user); 
         }),
         catchError(err => throwError(() => err))
       );
   }
 
-  // Login
-  login(data: { email: string; password: string; rememberMe?: boolean }): Observable<{ token: string; user: User }> {
-    return this.http.post<{ token: string; user: User }>(`${this.apiUrl}/login`, data)
-      .pipe(
-        tap(response => {
-          if (typeof window !== 'undefined') {
-            localStorage.setItem('token', response.token);
-            localStorage.setItem('user', JSON.stringify(response.user));
-            this.currentUserSubject.next(response.user);
-          }
-        }),
-        catchError(err => throwError(() => err))
-      );
-  }
-
-  // Obtener usuario actual de forma síncrona
   getCurrentUser(): User | null {
     if (typeof window !== 'undefined') {
       const user = localStorage.getItem('user');
@@ -68,26 +76,28 @@ export class AuthService {
     return null;
   }
 
-  // Actualizar datos del usuario
-  updateUser(userData: Partial<User>): Observable<User> {
-    return this.http.put<User>(`${this.apiUrl}/user/update`, userData, { headers: this.getAuthHeaders() })
-      .pipe(
-        tap(user => {
-          if (typeof window !== 'undefined') {
-            localStorage.setItem('user', JSON.stringify(user));
-            this.currentUserSubject.next(user);
-          }
-        }),
-        catchError(err => throwError(() => err))
-      );
+  updateUser(userData: Partial<User>): Observable<{ message: string; user: User }> {
+    return this.http.put<{ message: string; user: User }>(
+      `${this.apiUrl}/admin/update-user/${userData.id}`,
+      userData,
+      { headers: this.getAuthHeaders() }
+    ).pipe(
+      tap(res => {
+        const user = res.user; 
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('user', JSON.stringify(user));
+        }
+        this.currentUserSubject.next(user);
+      }),
+      catchError(err => throwError(() => err))
+    );
   }
 
-  // Logout
   logout(): void {
     if (typeof window !== 'undefined') {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
-      this.currentUserSubject.next(null);
     }
+    this.currentUserSubject.next(null); 
   }
 }

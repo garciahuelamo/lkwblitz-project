@@ -1,55 +1,64 @@
 <div class="main-content">
-  <h2>User List</h2>
 
-  <div *ngIf="loading">Loading...</div>
-  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+  <!-- Search -->
+  <input type="text" [(ngModel)]="searchTerm" placeholder="Search user..." (input)="filterUsers()" class="search-input">
 
-  <input
-    type="text"
-    placeholder="Search user by name or email..."
-    [(ngModel)]="searchTerm"
-    (input)="filterUsers()"
-  />
+  <!-- Users Table -->
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of filteredUsers">
+        <td>{{ user.name }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.role }}</td>
+        <td>
+          <button class="update" (click)="openEditModal(user)">Edit</button>
+          <button class="delete" (click)="openDeleteModal(user)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
-  <ng-container *ngIf="users.length > 0; else noUsers">
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let user of filteredUsers">
-          <td>
-            <ng-container *ngIf="editingUserId === user.id; else showName">
-              <input [(ngModel)]="editedUser.name" />
-            </ng-container>
-            <ng-template #showName>{{ user.name }}</ng-template>
-          </td>
-          <td>
-            <ng-container *ngIf="editingUserId === user.id; else showEmail">
-              <input [(ngModel)]="editedUser.email" />
-            </ng-container>
-            <ng-template #showEmail>{{ user.email }}</ng-template>
-          </td>
-          <td>
-            <ng-container *ngIf="editingUserId === user.id; else showActions">
-              <button (click)="saveUser()" [disabled]="updatingUserId === user.id">Save</button>
-              <button (click)="cancelEditing()" [disabled]="updatingUserId === user.id">Cancel</button>
-            </ng-container>
-            <ng-template #showActions>
-              <button (click)="startEditing(user)">Update</button>
-              <button (click)="deleteUser(user.id)">Delete</button>
-            </ng-template>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </ng-container>
+<!-- Modal POP-UP -->
+<div class="modal-backdrop" *ngIf="modalUser">
+  <div class="modal">
+    <h3>{{ modalAction === 'delete' ? 'Delete User' : 'Edit User' }}</h3>
 
-  <ng-template #noUsers>
-    <div>There are no users.</div>
-  </ng-template>
+    <!-- Delete Modal -->
+    <div *ngIf="modalAction === 'delete'">
+      <p>Are you sure you want to delete user <strong>{{ modalUser.name }}</strong>?</p>
+      <div class="modal-buttons">
+        <button class="delete" (click)="confirmDeleteUser()">Yes, Delete</button>
+        <button class="cancel" (click)="closeModal()">Cancel</button>
+      </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div *ngIf="modalAction === 'edit'">
+      <label>
+        Name:
+        <input [(ngModel)]="editedUser.name" />
+      </label>
+      <label>
+        Email:
+        <input [(ngModel)]="editedUser.email" />
+      </label>
+      <label>
+        Role:
+        <input [(ngModel)]="editedUser.role" />
+      </label>
+      <div class="modal-buttons">
+        <button class="update" (click)="saveUser()">Save</button>
+        <button class="cancel" (click)="closeModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
 </div>

@@ -1,20 +1,82 @@
 html, body {
   height: 100%;
   margin: 0;
-}
-
-.main-content {
-  display: flex;
-  justify-content: center; /* centro horizontal */
-  align-items: center;     /* centro vertical */
-  min-height: 100vh;       /* ocupa toda la pantalla */
-  background-color: #2b2b2b; /* tu color de fondo */
   padding: 0;
+  background: linear-gradient(135deg, #1a1c2b, #3a506b);
+  overflow: hidden; /* evita franjas */
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.center-container {
-  width: 100%;
-  max-width: 450px;       /* ancho máximo del formulario */
-  padding: 1rem;
+* {
   box-sizing: border-box;
+}
+
+/* Contenedor principal ocupa toda la pantalla */
+.page-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  padding: 2rem;
+}
+
+/* Dashboard estilo “glassmorphism” */
+.dashboard-container {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 1200px; /* ancho máximo para escritorio */
+  height: 100%;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  overflow-y: auto; /* scroll interno si hay muchas gráficas */
+}
+
+/* Título del dashboard */
+.dashboard-container h2 {
+  color: #f1f5f9;
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  margin: 0;
+}
+
+/* Grid de gráficas */
+.charts-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* dos columnas */
+  gap: 2rem;
+  flex: 1;
+}
+
+/* Tarjetas de gráficas */
+.chart-card {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 1.5rem;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Títulos de gráficas */
+.chart-card h3 {
+  color: #e2e8f0;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+/* Ajuste canvas para ocupar espacio */
+.chart-card canvas {
+  width: 100% !important;
+  height: 250px !important;
 }

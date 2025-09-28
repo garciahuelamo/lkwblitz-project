@@ -1,4 +1,4 @@
-/* Page Container */
+/* --- PAGE CONTAINER --- */
 .page-container {
   display: flex;
   flex-direction: column;
@@ -6,11 +6,12 @@
   background: linear-gradient(135deg, #202022, #7b857f);
   min-height: 100vh;
   width: 100%;
-  padding-top: 60px; /* space for header */
+  padding-top: 80px; /* espacio para header */
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   box-sizing: border-box;
 }
 
-/* Main Content */
+/* --- MAIN CONTENT --- */
 .main-content {
   flex: 1;
   display: flex;
@@ -21,85 +22,122 @@
   justify-content: flex-start;
 }
 
-/* Rates Container */
+/* --- RATES CONTAINER --- */
 .rates-container {
   display: flex;
   flex-direction: column;
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
+  gap: 20px;
 }
 
+/* --- TITLES --- */
 .title {
   color: white;
   font-size: 2.5rem;
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
+  font-weight: 700;
 }
 
 .no-rates {
   color: #ccc;
   text-align: center;
   margin-bottom: 20px;
+  font-size: 1.1rem;
 }
 
-/* Columns Layout for Cards */
+/* --- COLUMNS LAYOUT FOR CARDS --- */
 .form-columns {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   gap: 20px;
+  justify-content: center;
 }
 
-/* Each Rate Card */
+/* --- EACH RATE CARD --- */
 .rate-card {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  background-color: #f9f9f9;
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  transition: box-shadow 0.2s;
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 25px 20px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+  transition: all 0.3s ease;
+  width: 100%;
+  max-width: 350px;
+  text-align: center;
 }
 
 .rate-card:hover {
-  box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
 }
 
-/* Logo */
+/* --- LOGO --- */
 .rate-logo-container {
-  flex-shrink: 0;
-  margin-right: 20px;
+  margin-bottom: 15px;
 }
 
 .rate-logo {
-  width: 200px;
-  height: 100px;
+  width: 150px;
+  height: auto;
   object-fit: contain;
 }
 
-/* Info Section */
+/* --- INFO SECTION --- */
 .rate-info {
-  flex: 1;
   display: flex;
   flex-direction: column;
+  gap: 8px;
   justify-content: center;
   align-items: center;
-  text-align: center;
-  padding: 0 10px;
 }
 
 .rate-amount {
-  font-size: 1.25rem;
-  font-weight: bold;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #16a34a;
 }
 
-/* Buy Button */
+/* --- BUY BUTTON --- */
 .buy-button-container button {
-  padding: 10px 20px;
+  padding: 10px 25px;
   border: none;
-  border-radius: 100px;
-  background-color: #312e2e;
+  border-radius: 50px;
+  background-color: #16a34a;
   color: white;
   cursor: pointer;
-  transition: background-c
+  font-weight: 600;
+  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.buy-button-container button:hover {
+  background-color: #22c55e;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 1000px) {
+  .form-columns {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .rate-card {
+    max-width: 90%;
+  }
+}
+
+@media (max-width: 500px) {
+  .title {
+    font-size: 2rem;
+  }
+
+  .rate-amount {
+    font-size: 1.2rem;
+  }
 }
